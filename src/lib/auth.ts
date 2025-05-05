@@ -29,7 +29,7 @@ export const authConfig = {
       },
     }),
   ],
-  session: { strategy: "jwt" as const },
+  session: { strategy: "jwt" as const, maxAge: 60 * 1 },
   pages: {
     signIn: "/login",
     error: "/api/auth/error",
