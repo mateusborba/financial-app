@@ -41,7 +41,7 @@ type NovaTransacaoForm = z.infer<typeof schema>;
 
 type User = { id: string; name: string; lastName: string; email: string };
 
-export const NovaTransacaoDialog = ({ users }: { users: User[] }) => {
+export const NewTransactionDialog = ({ users }: { users: User[] }) => {
   const [open, setOpen] = useState(false);
   const router = useRouter();
 

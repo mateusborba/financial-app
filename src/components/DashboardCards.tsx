@@ -2,7 +2,7 @@ import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth";
 import { prisma } from "@/lib/db";
 import { redirect } from "next/navigation";
-import { NovaTransacaoDialog } from "./NovaTransacaoDialog";
+import { NewTransactionDialog } from "./NewTransactionDialog";
 import { AdicionarSaldoDialog } from "./AdicionarSaldoDialog";
 import { cn, sleep } from "@/lib/utils";
 import { getUsers } from "@/app/actions/get-users";
@@ -25,15 +25,15 @@ export const DashboardCards = async () => {
 
   return (
     <div className="w-full py-6">
-      <div className="mb-8 flex items-center justify-between">
-        <div>
+      <div className="mb-8 flex flex-col gap-2 md:flex-row md:items-center justify-between">
+        <div className="flex flex-col gap-2">
           <h1 className="text-3xl font-bold">Painel</h1>
           <p className="text-muted-foreground">
             Bem-vindo de volta, {user?.name} {user?.lastName}
           </p>
         </div>
         <div className="flex gap-2">
-          <NovaTransacaoDialog users={users} />
+          <NewTransactionDialog users={users} />
           <AdicionarSaldoDialog />
         </div>
       </div>

@@ -1,7 +1,8 @@
 import * as React from "react";
-import { NovaTransacaoDialog } from "@/components/NovaTransacaoDialog";
+
 import { render, screen, fireEvent } from "@testing-library/react";
 import { describe, it, expect, vi, beforeAll } from "vitest";
+import { NewTransactionDialog } from "../src/components/NewTransactionDialog";
 
 const users = [
   { id: "1", name: "João", lastName: "Silva", email: "joao@email.com" },
@@ -17,7 +18,7 @@ vi.mock("next/navigation", () => ({
   }),
 }));
 
-describe("NovaTransacaoDialog", () => {
+describe("NewTransactionDialog", () => {
   beforeAll(() => {
     const portalRoot = document.createElement("div");
     portalRoot.setAttribute("id", "radix-portal");
@@ -25,14 +26,14 @@ describe("NovaTransacaoDialog", () => {
   });
 
   it("renderiza o botão de nova transação", () => {
-    render(<NovaTransacaoDialog users={users} />);
+    render(<NewTransactionDialog users={users} />);
     expect(
       screen.getAllByRole("button", { name: "Nova transação" })[0]
     ).toBeTruthy();
   });
 
   it("abre o dialog ao clicar no botão", () => {
-    render(<NovaTransacaoDialog users={users} />);
+    render(<NewTransactionDialog users={users} />);
     fireEvent.click(
       screen.getAllByRole("button", { name: "Nova transação" })[0]
     );
@@ -40,7 +41,7 @@ describe("NovaTransacaoDialog", () => {
   });
 
   it("valida campos obrigatórios", async () => {
-    render(<NovaTransacaoDialog users={users} />);
+    render(<NewTransactionDialog users={users} />);
     fireEvent.click(
       screen.getAllByRole("button", { name: "Nova transação" })[0]
     );

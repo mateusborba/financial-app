@@ -22,6 +22,8 @@ import {
   FormMessage,
 } from "./ui/form";
 import { toast } from "sonner";
+import { addBalance } from "@/app/actions/add-balance";
+import { Loader2 } from "lucide-react";
 
 const schema = z.object({
   amount: z.string().min(1, "Informe o valor"),
@@ -40,16 +42,7 @@ export const AdicionarSaldoDialog = () => {
 
   const onSubmit = async (data: AdicionarSaldoForm) => {
     try {
-      const res = await fetch("/api/user/add-balance", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          amount: Number(data.amount.replace(",", ".")),
-        }),
-      });
-      const result = await res.json();
-      if (!res.ok) throw new Error(result.error || "Erro ao adicionar saldo");
-
+      await addBalance(Number(data.amount.replace(",", ".")));
       form.reset();
       setOpen(false);
       router.refresh();
@@ -106,6 +99,9 @@ export const AdicionarSaldoDialog = () => {
             />
             <Button type="submit" disabled={form.formState.isSubmitting}>
               Adicionar
+              {form.formState.isSubmitting && (
+                <Loader2 className="size-4 ml-2 animate-spin" />
+              )}
             </Button>
           </form>
         </Form>

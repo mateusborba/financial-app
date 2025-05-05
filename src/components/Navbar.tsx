@@ -15,7 +15,7 @@ export const Navbar = () => {
   return (
     <nav className="border-b bg-background sticky top-0 z-50">
       <div className="mx-auto flex w-full items-center justify-between px-4 sm:px-6 lg:px-10">
-        <div className="flex h-16 items-center">
+        <div className="flex h-16 items-center justify-between md:justify-start w-full">
           <div className="flex-shrink-0">
             <span className="text-xl font-bold">Financial App</span>
           </div>
@@ -33,13 +33,21 @@ export const Navbar = () => {
                 {item.name}
               </Link>
             ))}
+            <div className="md:hidden flex items-center">
+              <Button
+                variant="destructive"
+                onClick={() => signOut({ callbackUrl: "/login" })}
+              >
+                Sair
+              </Button>
+            </div>
           </div>
         </div>
-        <div className="flex items-center">
+        <div className="items-center gap-2.5 hidden md:flex">
           <ToggleTheme />
-          <div className="mr-4 text-sm text-muted-foreground">
+          <p className="text-sm w-max text-muted-foreground">
             {session?.user?.name} {session?.user?.lastName}
-          </div>
+          </p>
           <Button
             variant="destructive"
             onClick={() => signOut({ callbackUrl: "/login" })}
