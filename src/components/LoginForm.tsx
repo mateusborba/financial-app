@@ -25,7 +25,7 @@ const loginSchema = z.object({
 
 type LoginFormData = z.infer<typeof loginSchema>;
 
-export function LoginForm() {
+export const LoginForm = () => {
   const [error, setError] = useState<string | null>(null);
   const router = useRouter();
   const form = useForm<LoginFormData>({
@@ -101,7 +101,7 @@ export function LoginForm() {
 
             {error && <div className="text-sm text-red-500">{error}</div>}
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-muted-foreground">
               Ainda nao tem conta?{" "}
               <Link href="/register" className="text-primary cursor pointer">
                 Cadastre-se
@@ -118,4 +118,4 @@ export function LoginForm() {
       </CardContent>
     </Card>
   );
-}
+};

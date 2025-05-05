@@ -9,28 +9,20 @@ import {
 } from "./ui/table";
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth";
-import { prisma } from "@/lib/db";
-import { DesfazerTransacaoButton } from "./DesfazerTransacaoButton";
+import { UndoTransactionButton } from "./UndoTransactionButton";
+import { getTransactions } from "@/app/actions/get-transactions";
+import { sleep } from "@/lib/utils";
 
-export default async function TransacoesTable() {
+export const TransactionsTable = async () => {
   const session = await getServerSession(authConfig);
+
   if (!session?.user?.id) {
     return null;
   }
-  const userId = session.user.id;
 
-  const transacoes = await prisma.transaction.findMany({
-    where: {
-      OR: [{ senderId: userId }, { receiverId: userId }],
-    },
-    orderBy: { createdAt: "desc" },
-    include: {
-      sender: { select: { id: true, name: true, lastName: true, email: true } },
-      receiver: {
-        select: { id: true, name: true, lastName: true, email: true },
-      },
-    },
-  });
+  const userId = session.user.id;
+  const { transactions } = await getTransactions();
+  await sleep(2000);
 
   return (
     <Card className="mt-8">
@@ -50,14 +42,14 @@ export default async function TransacoesTable() {
             </TableRow>
           </TableHeader>
           <TableBody>
-            {transacoes.length === 0 && (
-              <TableRow>
-                <TableCell colSpan={6} className="text-center">
+            {transactions.length === 0 && (
+              <TableRow className="hover:bg-transparent">
+                <TableCell colSpan={6} className="text-center pt-8">
                   Nenhuma transação encontrada.
                 </TableCell>
               </TableRow>
             )}
-            {transacoes.map((t) => {
+            {transactions.map((t) => {
               const isSent = t.senderId === userId;
               return (
                 <TableRow key={t.id}>
@@ -87,7 +79,7 @@ export default async function TransacoesTable() {
                   </TableCell>
                   <TableCell>
                     {isSent && t.status === "completed" && (
-                      <DesfazerTransacaoButton id={t.id} />
+                      <UndoTransactionButton id={t.id} />
                     )}
                   </TableCell>
                 </TableRow>
@@ -98,4 +90,4 @@ export default async function TransacoesTable() {
       </CardContent>
     </Card>
   );
-}
+};

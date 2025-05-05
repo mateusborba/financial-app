@@ -27,18 +27,18 @@ export default function AuthError() {
     : errorMessages.default;
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <div className="max-w-md w-full space-y-8 p-8 bg-white rounded-lg shadow-lg">
+    <div className="min-h-screen flex items-center justify-center bg-muted">
+      <div className="max-w-md w-full space-y-8 p-8 bg-card rounded-lg shadow-lg">
         <div className="text-center">
-          <h2 className="mt-6 text-3xl font-bold text-gray-900">
+          <h2 className="mt-6 text-3xl font-bold text-foreground">
             Erro de Autenticação
           </h2>
-          <p className="mt-2 text-sm text-gray-600">{errorMessage}</p>
+          <p className="mt-2 text-sm text-muted-foreground">{errorMessage}</p>
         </div>
         <div className="mt-8 space-y-4">
           <Link
             href="/login"
-            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-primary-foreground bg-primary hover:bg-primary/90 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-primary"
           >
             Voltar para o Login
           </Link>

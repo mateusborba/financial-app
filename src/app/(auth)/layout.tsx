@@ -25,7 +25,9 @@ const AuthLayout = async ({ children }: { children: ReactNode }) => {
       </div>
       <div className="w-full flex justify-center gap-20 h-full flex-col px-10 lg:p-0 items-center">
         <div className="md:hidden md:-mt-20 flex flex-col gap-2 justify-center items-center">
-          <h1 className="text-3xl text-white font-bold">Financial App</h1>
+          <h1 className="text-3xl text-primary-foreground font-bold">
+            Financial App
+          </h1>
         </div>
         {children}
       </div>
