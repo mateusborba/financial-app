@@ -14,7 +14,7 @@ vi.mock("@/lib/db", () => ({
   },
 }));
 
-import { getTransactions } from "../src/app/actions/get-transactions";
+import { getTransactions } from "../../src/app/actions/get-transactions";
 
 describe("getTransactions (server action)", () => {
   let getServerSessionMock: ReturnType<typeof vi.fn>;

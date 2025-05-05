@@ -14,7 +14,7 @@ vi.mock("@/lib/db", () => ({
   },
 }));
 
-import { addBalance } from "../src/app/actions/add-balance";
+import { addBalance } from "../../src/app/actions/add-balance";
 
 describe("addBalance (server action)", () => {
   let getServerSessionMock: ReturnType<typeof vi.fn>;

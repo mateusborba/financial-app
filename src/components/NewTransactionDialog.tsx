@@ -30,7 +30,7 @@ import {
 } from "./ui/form";
 import { cn } from "@/lib/utils";
 import { toast } from "sonner";
-import { makeTransaction } from "@/app/actions/transaction";
+import { makeTransaction } from "@/app/actions/post-transaction";
 
 const schema = z.object({
   receiverId: z.string().min(1, "Selecione um usuário"),

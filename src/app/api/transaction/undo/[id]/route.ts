@@ -1,19 +1,18 @@
 import { getServerSession } from "next-auth";
 import { authConfig } from "@/lib/auth";
 import { prisma } from "@/lib/db";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
 
-export async function POST(
-  req: Request,
-  { params }: { params: { id: string } }
-) {
+export async function POST(request: NextRequest) {
   const session = await getServerSession(authConfig);
   if (!session?.user?.id) {
     return NextResponse.json({ error: "Não autenticado" }, { status: 401 });
   }
 
+  const id = request.nextUrl.pathname.split("/").pop();
+
   const transaction = await prisma.transaction.findUnique({
-    where: { id: params.id },
+    where: { id },
   });
 
   if (
@@ -27,7 +26,6 @@ export async function POST(
     );
   }
 
-  // Reverte a transação de forma atômica
   await prisma.$transaction([
     prisma.user.update({
       where: { id: transaction.senderId },

@@ -1,3 +1,4 @@
+import { getUsers } from "@/app/actions/get-users";
 import { describe, it, expect, vi, beforeEach } from "vitest";
 
 vi.mock("next-auth", () => ({
@@ -13,8 +14,6 @@ vi.mock("@/lib/db", () => ({
     },
   },
 }));
-
-import { getUsers } from "../src/app/actions/get-users";
 
 describe("getUsers (server action)", () => {
   let getServerSessionMock: ReturnType<typeof vi.fn>;
