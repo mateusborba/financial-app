@@ -19,6 +19,7 @@ vi.mock("next/navigation", () => ({
   redirect: () => {
     throw new Error("redirect");
   },
+  useRouter: () => ({ push: vi.fn(), refresh: vi.fn() }),
 }));
 
 vi.mock("@/app/actions/get-users", () => ({
@@ -60,15 +61,13 @@ describe("DashboardCards", () => {
     const { prisma } = await import("@/lib/db");
     const { getUsers } = await import("@/app/actions/get-users");
 
-    (getServerSession as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(
-      { user: { id: "1" } }
-    );
-    (
-      prisma.user.findUnique as unknown as ReturnType<typeof vi.fn>
-    ).mockResolvedValue(mockUser);
-    (getUsers as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(
-      mockUsers
-    );
+    const getServerSessionMock = getServerSession as ReturnType<typeof vi.fn>;
+    const getUsersMock = getUsers as ReturnType<typeof vi.fn>;
+    const findUniqueMock = prisma.user.findUnique as ReturnType<typeof vi.fn>;
+
+    getServerSessionMock.mockResolvedValue({ user: { id: "1" } });
+    findUniqueMock.mockResolvedValue(mockUser);
+    getUsersMock.mockResolvedValue(mockUsers);
 
     render(await DashboardCards());
 
@@ -81,9 +80,8 @@ describe("DashboardCards", () => {
 
   it("redireciona se não houver sessão", async () => {
     const { getServerSession } = await import("next-auth");
-    (getServerSession as unknown as ReturnType<typeof vi.fn>).mockResolvedValue(
-      null
-    );
+    const getServerSessionMock = getServerSession as ReturnType<typeof vi.fn>;
+    getServerSessionMock.mockResolvedValue(null);
     await expect(DashboardCards()).rejects.toThrow("redirect");
   });
 });
