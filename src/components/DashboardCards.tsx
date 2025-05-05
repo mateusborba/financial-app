@@ -38,7 +38,7 @@ export const DashboardCards = async () => {
         </div>
       </div>
 
-      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-5">
         <Card className="rounded-lg border p-6 shadow-sm">
           <h2 className="mb-2 text-xl font-semibold">Saldo</h2>
           <p
