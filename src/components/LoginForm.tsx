@@ -19,8 +19,8 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import Link from "next/link";
 
 const loginSchema = z.object({
-  email: z.string().email("Email invalido"),
-  password: z.string().min(6, "Senha deve conter pelo menos 8 caracteres"),
+  email: z.string().min(1, "Email é obrigatório").email("Email invalido"),
+  password: z.string().min(1, "Senha é obrigatória"),
 });
 
 type LoginFormData = z.infer<typeof loginSchema>;
@@ -45,7 +45,8 @@ export const LoginForm = () => {
       });
 
       if (result?.error) {
-        setError(result.error);
+        form.setError("email", { message: "Credenciais inválidas" });
+        form.setError("password", { message: "Credenciais inválidas" });
         return;
       }
 
@@ -58,8 +59,8 @@ export const LoginForm = () => {
 
   return (
     <Card className="w-full max-w-md">
-      <CardHeader>
-        <CardTitle>Login</CardTitle>
+      <CardHeader className="justify-center">
+        <CardTitle className="text-2xl font-bold">Login</CardTitle>
       </CardHeader>
       <CardContent>
         <Form {...form}>
