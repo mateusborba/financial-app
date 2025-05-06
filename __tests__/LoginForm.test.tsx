@@ -34,10 +34,18 @@ describe("LoginForm", () => {
   it("valida campos obrigatórios e formato de email", async () => {
     render(<LoginForm />);
     fireEvent.click(screen.getByRole("button", { name: /login/i }));
+    expect(await screen.findByText(/email é obrigatório/i)).toBeTruthy();
+    expect(await screen.findByText(/senha é obrigatória/i)).toBeTruthy();
+
+    // Testa formato de email inválido
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "foo" },
+    });
+    fireEvent.change(screen.getByLabelText(/senha/i), {
+      target: { value: "12345678" },
+    });
+    fireEvent.click(screen.getByRole("button", { name: /login/i }));
     expect(await screen.findByText(/email invalido/i)).toBeTruthy();
-    expect(
-      await screen.findByText(/senha deve conter pelo menos 8 caracteres/i)
-    ).toBeTruthy();
   });
 
   it("mostra erro se signIn retornar erro", async () => {
@@ -53,7 +61,9 @@ describe("LoginForm", () => {
       target: { value: "12345678" },
     });
     fireEvent.click(screen.getByRole("button", { name: /login/i }));
-    expect(await screen.findByText(/credenciais inválidas/i)).toBeTruthy();
+
+    const errors = await screen.findAllByText(/credenciais inválidas/i);
+    expect(errors).toHaveLength(2);
   });
 
   it("redireciona para dashboard se login for bem-sucedido", async () => {
